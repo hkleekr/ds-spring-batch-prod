@@ -1,0 +1,133 @@
+spring:
+  # SMTP 정보(개발)
+  mail:
+    host: dswdvmail01.daesang.com
+    port: 25
+    username: Daesang_CRM_no_reply@daesang.com
+    password: ray!102030
+    #전송하기 위한 prop으로 ssl의 신뢰, 권한 등 사용허가
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            trust: dswdvmail01.daesang.com
+  boot:
+    admin:
+      client:
+        username: admin
+        password: admin
+        url: http://localhost:12068 #admin server url
+        instance:
+          name: DS Spring Batch
+          service-url: http://localhost:8090
+          service-base-url: http://localhost:12068
+  datasource:
+    h2:
+      driver-class-name: org.h2.Driver
+      jdbc-url: jdbc:h2:mem:spring-batch
+      username: sa
+      password:
+
+    ## mdm
+    oracle-mdm:
+      jdbc-url: jdbc:oracle:thin:@192.168.15.146:1571/ORAMDM
+      driver-class-name: oracle.jdbc.driver.OracleDriver
+      username: ifuser
+      password: ifuser
+
+    ## 통합인사
+    oracle-hr:
+      jdbc-url: jdbc:oracle:thin:@172.17.0.191:1521/GWDB
+      driver-class-name: oracle.jdbc.driver.OracleDriver
+      username: siuser
+      password: uhu9xlckb9b
+
+    ## TMS
+    oracle-tms:
+      jdbc-url: jdbc:oracle:thin:@192.168.14.94:1527/TMSDB
+      driver-class-name: oracle.jdbc.driver.OracleDriver
+      username: CRMIF
+      password: trw6htldybe
+
+  jpa:
+    show-sql: true
+    #    properties:
+    #      hibernate:
+    #        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      #      ddl-auto: create
+      ddl-auto: none
+
+  h2:
+    console:
+      enabled: true
+
+  session:
+    store-type: jdbc
+    jdbc:
+#      initialize-schema: always
+      initialize-schema: never
+
+  batch:
+    job:
+      enabled: true
+      names: ${job.name:EMPTY}
+    jdbc:
+      initialize-schema: always
+
+
+logging:
+  config: classpath:logback/logback-spring.xml
+  level:
+    com.daesang.springbatch: debug
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+  file:
+    name: "/home/tmax/logs/sb.log"
+    server-name: ${server-name}
+    root-path: ${log-root-path}
+
+
+
+server:
+  port: ${port:9020}
+
+
+request:
+#  scg: https://dscrmgw.daesang.com
+  scg: http://localhost:9000
+
+# 테이블 스키마가 서로 다를경우
+schema:
+  tms: DSTMS
+
+# ADMIN CONFIG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+file:
+  rpapath: "/data/rpaupload/"
+  datpath: "/home/drm/SAFER45/java3_UTF8_mcname/MarkAnyDrmInfo.dat"
+  home: "/home/tmax/"
+
+report:
+  filter-text-array: ["month_drm_sws", "month_drm_sb", "month_report"]
+  server-name: ["dev"]
+  service-detail:
+    month_drm_sws: "세일즈포스 실시간 DRM 해제 이력"
+    month_drm_sb: "연동서버 RPA 배치 DRM 해제 이력"
+    month_report: "연동서버 배치 이력"
+  report-file-dir-path: "/home/tmax/logs/month"
+  report-down-dir-path: "/home/tmax/logs/month"
+  #  report-down-dir-path: "/data/crm_logs" ## Log Report 발송 파일 다운로드 설정시 저장 위치
+  from-address: "Daesang_CRM_no_reply@daesang.com"
+  to-address: ["im1325@daesang.com"] # DISC@daesang.com / 매달 1일 발송
+  to-cc:
+  to-bcc:

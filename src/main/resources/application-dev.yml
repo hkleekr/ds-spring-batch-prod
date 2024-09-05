@@ -1,0 +1,80 @@
+spring:
+  datasource:
+    h2:
+      driver-class-name: org.h2.Driver
+      jdbc-url: jdbc:h2:mem:spring-batch
+#      jdbc-url: jdbc:h2:tcp://localhost/~/test
+      username: sa
+      password:
+
+#    postgres:
+#      jdbc-url: jdbc:postgresql://125.177.49.9:5432/postgres
+#      driver-class-name: org.postgresql.Driver
+#      username: postgres
+#      password: daesangcrm
+
+    ## mdm
+    oracle-mdm:
+      jdbc-url: jdbc:oracle:thin:@192.168.14.220:1521/ORAMDM
+      driver-class-name: oracle.jdbc.driver.OracleDriver
+      username: ifuser
+      password: ifuser
+
+    ## 통합인사
+    oracle-hr:
+      jdbc-url: jdbc:oracle:thin:@172.17.0.191:1521/GWDB
+      driver-class-name: oracle.jdbc.driver.OracleDriver
+      username: siuser
+      password: uhu9xlckb9b
+
+    ## TMS
+    oracle-tms:
+      jdbc-url: jdbc:oracle:thin:@192.168.15.27:1527/DSGDB
+      driver-class-name: oracle.jdbc.driver.OracleDriver
+      username: CRMIF_DEV
+      password: c6dq44uhzzl
+
+  jpa:
+    show-sql: true
+    #    properties:
+    #      hibernate:
+    #        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      #      ddl-auto: create
+      ddl-auto: none
+
+  h2:
+    console:
+      enabled: true
+
+  session:
+    store-type: jdbc
+    jdbc:
+#      initialize-schema: always
+      initialize-schema: never
+
+  batch:
+    job:
+      enabled: true
+      names: ${job.name:EMPTY}
+    jdbc:
+      initialize-schema: always
+
+
+logging:
+  level:
+    com.daesang.springbatch: debug
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+server:
+  port: ${port:9010}
+
+
+request:
+#  scg: https://dev-dscrmgw.daesang.com
+  scg: http://localhost:9000
+
+# 테이블 스키마가 서로 다를경우
+schema:
+  tms: DSTMS_DEV

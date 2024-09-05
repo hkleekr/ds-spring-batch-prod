@@ -1,0 +1,15 @@
+rfc:
+  common:
+    user: CDSR2201
+    password: daesang1!
+    client-no: 100
+    lang: ko
+    pool-capa: 5
+    peak-limit: 10
+  dev:
+    host: 192.168.14.44
+    system-no: 00
+  prod:
+    host: h010120004.daesang.co.kr
+    r3name: PES
+    group: Daesang_ERP
